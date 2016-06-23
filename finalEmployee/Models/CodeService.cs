@@ -21,25 +21,7 @@ namespace finalEmployee.Models
             return
                 System.Configuration.ConfigurationManager.ConnectionStrings["DBConn"].ConnectionString.ToString();
         }
-
-        /// <summary>
-        /// 取得產品
-        /// </summary>
-        /// <returns></returns>
-        public List<SelectListItem> GetProduct()
-        {
-            DataTable dt = new DataTable();
-            string sql = @"Select Productid As CodeId,Productname As CodeName From Production.Products";
-            using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
-            {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand(sql, conn);
-                SqlDataAdapter sqlAdapter = new SqlDataAdapter(cmd);
-                sqlAdapter.Fill(dt);
-                conn.Close();
-            }
-            return this.MapCodeData(dt);
-        }
+        
 
         /// <summary>
         /// 取得員工資料
@@ -48,7 +30,7 @@ namespace finalEmployee.Models
         public List<SelectListItem> GetEmp()
         {
             DataTable dt = new DataTable();
-            string sql = @"Select EmployeeID As CodeId,Lastname+'-'+Firstname As CodeName FROM HR.Employees";
+            string sql = @"Select EmployeeID As CodeId,LastName+'-'+FirstName As CodeName FROM HR.Employees";
             using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
             {
                 conn.Open();
@@ -59,44 +41,7 @@ namespace finalEmployee.Models
             }
             return this.MapCodeData(dt);
         }
-
-        /// <summary>
-        /// 取得客戶資料
-        /// </summary>
-        /// <returns></returns>
-        public List<SelectListItem> GetCustomer()
-        {
-            DataTable dt = new DataTable();
-            string sql = @"Select CustomerID As CodeId,CompanyName As CodeName FROM Sales.Customers";
-            using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
-            {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand(sql, conn);
-                SqlDataAdapter sqlAdapter = new SqlDataAdapter(cmd);
-                sqlAdapter.Fill(dt);
-                conn.Close();
-            }
-            return this.MapCodeData(dt);
-        }
-
-        /// <summary>
-        /// 取得出貨公司資料
-        /// </summary>
-        /// <returns></returns>
-        public List<SelectListItem> GetShipper()
-        {
-            DataTable dt = new DataTable();
-            string sql = @"Select ShipperID As CodeId,CompanyName As CodeName FROM Sales.Shippers";
-            using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
-            {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand(sql, conn);
-                SqlDataAdapter sqlAdapter = new SqlDataAdapter(cmd);
-                sqlAdapter.Fill(dt);
-                conn.Close();
-            }
-            return this.MapCodeData(dt);
-        }
+        
 
         /// <summary>
         /// Maping 代碼資料

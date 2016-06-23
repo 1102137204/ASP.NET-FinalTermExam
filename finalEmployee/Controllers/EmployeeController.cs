@@ -18,7 +18,7 @@ namespace finalEmployee.Controllers
         /// <returns></returns>
         public ActionResult Index()
         {
-
+            ViewBag.EmpCodeData = this.codeService.GetEmp();
             return View();
         }
     }

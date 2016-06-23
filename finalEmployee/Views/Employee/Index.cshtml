@@ -1,20 +1,4 @@
-﻿<!--@{
-    Layout = null;
-}
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
-    <div>
-    </div>
-</body>
-</html>-->
-
+﻿
 @model finalEmployee.Models.EmployeeSearchArg
 @{
     ViewBag.Title = "Index";
@@ -35,13 +19,14 @@
             <tr>
                 <td>員工姓名</td>
                 <td>
-                    @Html.TextBoxFor(model => model.EmployeeName)
+                    @Html.DropDownListFor(model => model.EmployeeID, (List<SelectListItem>)ViewBag.EmpCodeData)
 
                 </td>
             </tr>
             <tr>
                 <td>職稱</td>
                 <td>
+                    @Html.TextBoxFor(model => model.TitleId)
                 </td>
             </tr>
             <tr>
