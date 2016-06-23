@@ -1,0 +1,122 @@
+﻿<!--@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <div>
+    </div>
+</body>
+</html>-->
+
+@model finalEmployee.Models.EmployeeSearchArg
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+<h2>員工資料查詢</h2>
+@using (Html.BeginForm("Index", "Order", FormMethod.Post, new { id = "Form1" }))
+{
+    <div id="SearchConditionSection">
+        <table class="table table-bordered">
+            <tr>
+                <td>員工編號</td>
+                <td>
+                    @Html.TextBoxFor(model => model.EmployeeID)
+
+                </td>
+            </tr>
+            <tr>
+                <td>員工姓名</td>
+                <td>
+                    @Html.TextBoxFor(model => model.EmployeeName)
+
+                </td>
+            </tr>
+            <tr>
+                <td>職稱</td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td>任職日期</td>
+                <td>
+                    @Html.TextBoxFor(model => model.HireDateFrom, new { @type = "date" })~
+                    @Html.TextBoxFor(model => model.HireDateTo, new { @type = "date" })
+                </td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td>
+                    <input type="submit" value="查詢" />
+                    <input type="reset" value="清除" />
+                    @Html.ActionLink("新增員工", "InsertEmployee")
+                </td>
+
+            </tr>
+        </table>
+    </div>
+
+    <div id="SearchResultSection">
+
+        @if (ViewBag.SearchResult != null)
+        {
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <td>編號</td>
+                    <td>姓名</td>
+                    <td>職稱</td>
+                    <td>任職日期</td>
+                    <td>性別</td>
+                    <td>年齡</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                @foreach (var item in (List<finalEmployee.Models.Employee>)ViewBag.SearchResult)
+                    {
+                    <tr id='@item.EmployeeID'>
+                        <td>@item.EmployeeID</td>
+                        <td>@item.EmployeeName</td>
+                        <td>@item.Title</td>
+                        <td>@item.HireDate</td>
+                        <td>@Html.ActionLink("修改", "UpdateEmployee", new { id = item.EmployeeID })</td>
+                        <td>
+                            <a class="btnDelete" href="#">刪除</a>
+                            <input class="hidOrderId" type="hidden" value='@item.EmployeeID' />
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        }
+
+
+    </div>
+}
+
+<script type="text/javascript">
+
+
+    $(".btnDelete").click(function (e) {
+
+        var tr = $(this).closest('tr')
+        $.ajax({
+            type: "POST",
+            url: "/Order/DeleteOrder",
+            data: "orderId="+$(this).next().val(),
+            dataType: "json",
+            success: function (response) {
+                $(tr).remove();
+            }
+        });
+        return false;
+    });
+
+</script>
